@@ -7,6 +7,13 @@
 
 import SwiftUI
 
+struct Topico: Identifiable{
+    var id =  UUID()
+    var nome: String
+    var foto: String
+    }
+
+
 struct HomeView: View {
     let username: String = "Olá Amiguinho"
     let topics = ["Animais", "Objetos", "Dia a Dia", "Frutas", "Cores", "Emocoes"]
@@ -14,6 +21,10 @@ struct HomeView: View {
     
     var body: some View {
         NavigationView {
+            ZStack{
+                 Color.orange.opacity(0.3)
+                    .edgesIgnoringSafeArea(.all)
+            }
             VStack(alignment: .leading) {
                 // Topo: Logo + Nome do Usuário
                 HStack {
@@ -24,32 +35,47 @@ struct HomeView: View {
                     Text(username)
                         .font(.title)
                         .fontWeight(.bold)
+                        .padding(.top, 50)
                     
                     Spacer()
                 }
-                .padding()
                 
                 Spacer()
                 
-                // Grade de botões
-                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
-                    ForEach(0..<topics.count, id: \.self) { index in
-                        NavigationLink(destination: InteractiveView(topic: topics[index])) {
-                            Image(topicImages[index])
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 100, height: 100)
-                                .background(RoundedRectangle(cornerRadius: 20).fill(Color.blue.opacity(0.3)))
-                                .padding()
-                        }
-                    }
-                }
+                ScrollView {
+                                   VStack(spacing: 16){ // Espaçamento entre os itens
+                                       ForEach(0..<topics.count, id: \.self) { index in
+                                           NavigationLink(destination: InteractiveView(topic: topics[index])) {
+                                               HStack {
+                                                   Image(topicImages[index])
+                                                       .resizable()
+                                                       .scaledToFit()
+                                                       .frame(width: 80, height: 80)
+                                                       .padding()
+                                                   
+                                                   Text(topics[index])
+                                                       .font(.title2)
+                                                       .fontWeight(.bold)
+                                                       .foregroundColor(.white)
+                                                   
+                                                   Spacer()
+                                               }
+                                               
+                                               .frame(width: 330, height: 200) // Define tamanho do retângulo
+                                               .background(RoundedRectangle(cornerRadius: 20).fill(Color.orange.opacity(0.7)))
+                                               .padding(.horizontal)
+                                           }
+                                       }
+                                   }
+                                   .padding(.top, 20) // Ajuste no topo para não colar na logo
+                               }
+                           }
                 
                 Spacer()
             }
             .padding()
-            .background(Color.orange.opacity(0.3)) // Fundo verde pastel
+            .background(Color.orange.opacity(0.3)) // cor de fundo
             .edgesIgnoringSafeArea(.all) // Faz o fundo cobrir toda a tela
         }
     }
-}
+

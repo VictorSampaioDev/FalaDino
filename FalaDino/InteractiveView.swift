@@ -41,7 +41,7 @@ struct InteractiveView: View {
             Spacer()
 
             // Grade de botões interativos
-            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
                 ForEach(0..<buttonImages.count, id: \.self) { index in
                     Button(action: {
                         playSound(named: sounds[index])
@@ -49,9 +49,9 @@ struct InteractiveView: View {
                         Image(buttonImages[index])
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 100, height: 100)
-                            .background(RoundedRectangle(cornerRadius: 20).fill(Color.blue.opacity(0.3)))
-                            .padding()
+                            .frame(width: 170, height: 170)
+                            .background(RoundedRectangle(cornerRadius: 20).fill(Color.orange.opacity(0.7)))
+                            
                     }
                 }
             }
@@ -59,7 +59,7 @@ struct InteractiveView: View {
             Spacer()
         }
         .padding()
-        .background(Color.green.opacity(0.4)) // Fundo verde pastel
+        .background(Color.orange.opacity(0.3)) // cor de fundo
          .edgesIgnoringSafeArea(.all) // Faz o fundo cobrir toda a tela
     }
 
