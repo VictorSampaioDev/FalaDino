@@ -8,13 +8,30 @@
 import SwiftUI
 import AVFoundation
 
+struct SheetView: View {
+    @Environment(\.dismiss) var dismiss
+    
+    var body: some View {
+        Button("Press to dismiss") {
+            dismiss()
+        }
+        .font(.title)
+        .padding()
+        .background(Color.blue)
+        .foregroundColor(.white)
+    }
+}
+
 struct InteractiveView: View {
-    let topic: String  
+    @State private var showingSheet = false
+    
+    let topic: String
     let username: String = "O Dino quer falar!"
     let buttonImages = ["image1", "image2", "image3", "image4", "image5", "image6"]
     let sounds = ["sound1", "sound2", "sound3", "sound4", "sound5", "sound6"]
 
     var body: some View {
+        
         VStack {
             // Topo: Logo + Nome do Usuário
             HStack {
@@ -43,6 +60,14 @@ struct InteractiveView: View {
             // Grade de botões interativos
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
                 ForEach(0..<buttonImages.count, id: \.self) { index in
+                    
+                    Button("Show Sheet") {
+                        showingSheet.toggle()
+                    }
+                    .sheet(isPresented: $showingSheet) {
+                        SheetView()
+                    }
+                    
                     Button(action: {
                         playSound(named: sounds[index])
                     }) {
