@@ -13,7 +13,6 @@ struct Topico: Identifiable{
     var foto: String
     }
 
-
 struct HomeView: View {
     let username: String = "Olá Amiguinho"
     let topics = ["Animais", "Objetos", "Dia a Dia", "Frutas", "Cores", "Emocoes"]
