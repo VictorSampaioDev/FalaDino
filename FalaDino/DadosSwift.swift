@@ -19,14 +19,16 @@ struct Item: Identifiable {
 let topicos: [String: [Item]] = [
     "Animais": [
         Item(nome: "Leão", imagem: "leao", som: "leao_som"),
-        Item(nome: "Gato", imagem: "gato", som: "gato_som"),
+        Item(nome: "Girafa", imagem: "girafa", som: "girafa_som"),
         Item(nome: "Elefante", imagem: "elefante", som: "elefante_som"),
-        Item(nome: "Cachorro", imagem: "Cachorro", som: "cachorro_som")
+        Item(nome: "Macaco", imagem: "macaco", som: "macaco_som"),
+        Item(nome: "Zebra", imagem: "zebra", som: "zebra_som"),
+        Item(nome: "Hipopótamo", imagem: "hipopótamo", som: "hipopotamo_som"),
     ],
     "Objetos": [
-        Item(nome: "Carro", imagem: "carro", som: "carro_som"),
-        Item(nome: "Avião", imagem: "aviao", som: "aviao_som"),
-        Item(nome: "Relógio", imagem: "relogio", som: "relogio_som")
+        Item(nome: "Lápis", imagem: "lápis", som: "lapis_som"),
+        Item(nome: "Cadeira", imagem: "cadeira", som: "cadeira_som"),
+        Item(nome: "Pincel", imagem: "pincel", som: "pincel_som")
     ],
     "Emoções": [
         Item(nome: "Feliz", imagem: "feliz", som: "feliz_som"),
@@ -36,7 +38,10 @@ let topicos: [String: [Item]] = [
     "Frutas": [
         Item(nome: "Maçã", imagem: "maca", som: "maca_som"),
         Item(nome: "Banana", imagem: "banana", som: "banana_som"),
-        Item(nome: "Morango", imagem: "morango", som: "morango_som")
+        Item(nome: "Morango", imagem: "morango", som: "morango_som"),
+        Item(nome: "Uva", imagem: "uva", som: "uva_som"),
+        Item(nome: "Abacaxi", imagem: "abacaxi", som: "abacaxi_som"),
+        Item(nome: "Melancia", imagem: "melancia", som: "melancia_som"),
     ],
     "Cores": [
         Item(nome: "Vermelho", imagem: "vermelho", som: "vermelho_som"),
