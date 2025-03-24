@@ -8,6 +8,7 @@
 import SwiftUI
 import AVFoundation
 
+
 struct InteractiveView: View {
     @State private var showingSheet = false
     @State private var selectedIndex: Int? = nil // Guarda o índice do botão clicado
