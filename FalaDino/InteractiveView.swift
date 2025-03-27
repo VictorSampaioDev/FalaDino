@@ -18,11 +18,10 @@ struct InteractiveView: View {
     }
     
     @State private var selectedItem: Item? = nil
-    @State private var showingSheet = false
 
     var body: some View {
         VStack {
-            // Topo: Logo + Nome do Usuário
+            // 🔹 Topo: Logo + Nome do Usuário
             HStack {
                 Image("app_logo")
                     .resizable()
@@ -31,9 +30,10 @@ struct InteractiveView: View {
                 
                 Spacer()
                 
-                Text("O Dino quer falar!")
+                Text("Vamos Começar!")
                     .font(.title)
                     .fontWeight(.bold)
+                    .padding(.top, 70)
                 
                 Spacer()
             }
@@ -45,16 +45,15 @@ struct InteractiveView: View {
 
             Spacer()
 
-            // Grade de botões interativos
+            // 🔹 Grade de botões interativos
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
                 ForEach(items) { item in
                     Button(action: {
                         selectedItem = item
-                        showingSheet.toggle()
                     }) {
                         VStack {
                             RoundedRectangle(cornerRadius: 20)
-                                .fill(Color.orange.opacity(0.7))
+                                .fill(Color.yellow.opacity(0.4))
                                 .frame(width: 170, height: 170)
                                 .overlay(
                                     VStack {
@@ -65,7 +64,7 @@ struct InteractiveView: View {
                                         
                                         Text(item.nome)
                                             .font(.headline)
-                                            .foregroundColor(.white)
+                                            .foregroundColor(.black)
                                             .padding(.top, 5)
                                     }
                                 )
@@ -77,80 +76,86 @@ struct InteractiveView: View {
             Spacer()
         }
         .padding()
-        .background(Color.orange.opacity(0.3))
-        .edgesIgnoringSafeArea(.all)
-        .sheet(isPresented: $showingSheet) {
-            if let item = selectedItem {
-                HalfScreenSheet(buttonImage: item.imagem, sound: item.som, dismissAction: {
-                    showingSheet = false
-                })
-            }
+        .background(Color.orange.opacity(0.2)).ignoresSafeArea()
+        .sheet(item: $selectedItem) { item in
+            HalfScreenSheet(buttonImage: item.imagem, sound: item.som, dismissAction: {
+                selectedItem = nil // Fecha a sheet corretamente
+            })
         }
     }
 }
+
 struct HalfScreenSheet: View {
-        let buttonImage: String
-        let sound: String
-        let dismissAction: () -> Void // Função para fechar a sheet
-        
-        var body: some View {
-            VStack {
-                // 🔹 Botão de Voltar
-                HStack {
-                    Button(action: {
-                        dismissAction() // Fecha a sheet
-                    }) {
-                        Image(systemName: "chevron.down")
-                            .font(.title)
-                            .foregroundColor(.black)
-                            .padding()
-                    }
-                    Spacer()
-                }
+    let buttonImage: String
+    let sound: String
+    let dismissAction: () -> Void // Função para fechar a sheet
+    
+    @State private var audioPlayer: AVAudioPlayer?
 
-                Text("Escolha uma ação")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .padding(.top, -10)
-
-                Image(buttonImage)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 120, height: 120)
+    var body: some View {
+        VStack {
+            // 🔹 Botão de Fechar
+            Button(action: {
+                dismissAction() // Fecha a sheet
+            }) {
+                Image(systemName: "chevron.down")
+                    .font(.title)
+                    .foregroundColor(.black)
                     .padding()
-
-                // 🔹 Botão de Ouvir som
-                Button(action: {
-                    playSound(named: sound)
-                }) {
-                    VStack {
-                        Image(systemName: "speaker.wave.2.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 50, height: 50)
-                            .padding()
-                        Text("Ouvir Som")
-                    }
-                    .frame(width: 120, height: 120)
-                    .background(RoundedRectangle(cornerRadius: 20).fill(Color.green.opacity(0.7)))
-                    .foregroundColor(.white)
-                }
-
-                Spacer()
             }
-            .padding()
-            .presentationDetents([.medium]) // Define a altura da sheet (metade da tela)
-        }
-    }
+            
+            Spacer()
 
-func playSound(named soundName: String) {
-    if let soundURL = Bundle.main.url(forResource: soundName, withExtension: "mp3") {
-        var player: AVAudioPlayer?
+            Text("Se Diz")
+                .font(.title2)
+                .fontWeight(.bold)
+                .padding(.top, -10)
+            
+            Image(buttonImage)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 120, height: 120)
+                .padding()
+
+            // 🔹 Botão de Tocar Som
+            Button(action: {
+                playSound(named: sound)
+            }) {
+                VStack {
+                    Image("audio1")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 80, height: 80)
+                        .padding()
+                }
+                .frame(width: 250, height: 150)
+                .background(RoundedRectangle(cornerRadius: 20).fill(Color.yellow.opacity(0.4)))
+                .foregroundColor(.white)
+            }
+            .padding(.bottom, 30)
+
+            Spacer()
+        }
+        .padding()
+        .presentationDetents([.medium]) // Define a altura da sheet (metade da tela)
+    }
+    
+    // 🔹 Função para tocar o som corretamente
+    func playSound(named soundName: String) {
+        guard let soundURL = Bundle.main.url(forResource: soundName, withExtension: "mp3") else {
+            print("⚠️ Arquivo de som '\(soundName).mp3' não encontrado!")
+            return
+        }
+        
         do {
-            player = try AVAudioPlayer(contentsOf: soundURL)
-            player?.play()
+            audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
+            audioPlayer?.play()
         } catch {
             print("Erro ao tocar o som: \(error.localizedDescription)")
         }
     }
+}
+
+#Preview {
+    HomeView()
 }
